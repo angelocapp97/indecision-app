@@ -34,7 +34,7 @@ const onFormSubmit = (event) => {
     }
 }
 
-const onRemoveAllClick = () => {
+const onRemoveAll = () => {
     app.options = []
     render()
 }
@@ -49,7 +49,7 @@ const render = () => {
                 <input type="text" name="option" />
                 <button>Add option</button>
             </form>
-            <button onClick={onRemoveAllClick}>Remove All</button>
+            <button onClick={onRemoveAll}>Remove All</button>
         </div>
     )
 
