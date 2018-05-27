@@ -34,6 +34,11 @@ const onFormSubmit = (event) => {
     }
 }
 
+const onRemoveAllClick = () => {
+    app.options = []
+    render()
+}
+
 const render = () => {
     const template = (
         <div>
@@ -44,6 +49,7 @@ const render = () => {
                 <input type="text" name="option" />
                 <button>Add option</button>
             </form>
+            <button onClick={onRemoveAllClick}>Remove All</button>
         </div>
     )
 
