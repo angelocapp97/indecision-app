@@ -1,8 +1,10 @@
 
+const appRoot = document.getElementById('app-root')
+
 const app = {
     title: 'Indecision App',
     subtitle: 'My first React app',
-    options: ['Option one', 'Option two', 'Option three'],
+    options: ['Option 1', 'Option 2', 'Option 3'],
     getOptions() {
         return (
             (app.options && app.options.length > 0) ? (
@@ -17,14 +19,24 @@ const app = {
     }
 };
 
-const template = (
-    <div>
-        <h1>{app.title ? app.title : 'Anonymous'}</h1>
-        {app.subtitle && <h3>{app.subtitle}</h3>}
-        {app.getOptions()}
-    </div>
-)
+if (!app.options) app.options = []
+let optionsCounter = app.options ? app.options.length : 0
+const addOption = () => {
+    optionsCounter++
+    app.options.push(`Option ${optionsCounter}`)
+    renderOptionsList()
+}
 
-const appRoot = document.getElementById('app-root')
+const renderOptionsList = () => {
+    const template = (
+        <div>
+            <h1>{app.title ? app.title : 'Anonymous'}</h1>
+            {app.subtitle && <h3>{app.subtitle}</h3>}
+            {app.getOptions()}
+            <button onClick={addOption}>Add option</button>
+        </div>
+    )
 
-ReactDOM.render(template, appRoot)
+    ReactDOM.render(template, appRoot)
+}
+renderOptionsList()

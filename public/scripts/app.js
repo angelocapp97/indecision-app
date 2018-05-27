@@ -1,9 +1,11 @@
 'use strict';
 
+var appRoot = document.getElementById('app-root');
+
 var app = {
     title: 'Indecision App',
     subtitle: 'My first React app',
-    options: ['Option one', 'Option two', 'Option three'],
+    options: ['Option 1', 'Option 2', 'Option 3'],
     getOptions: function getOptions() {
         var _this = this;
 
@@ -34,22 +36,36 @@ var app = {
     }
 };
 
-var template = React.createElement(
-    'div',
-    null,
-    React.createElement(
-        'h1',
-        null,
-        app.title ? app.title : 'Anonymous'
-    ),
-    app.subtitle && React.createElement(
-        'h3',
-        null,
-        app.subtitle
-    ),
-    app.getOptions()
-);
+if (!app.options) app.options = [];
+var optionsCounter = app.options ? app.options.length : 0;
+var addOption = function addOption() {
+    optionsCounter++;
+    app.options.push('Option ' + optionsCounter);
+    renderOptionsList();
+};
 
-var appRoot = document.getElementById('app-root');
+var renderOptionsList = function renderOptionsList() {
+    var template = React.createElement(
+        'div',
+        null,
+        React.createElement(
+            'h1',
+            null,
+            app.title ? app.title : 'Anonymous'
+        ),
+        app.subtitle && React.createElement(
+            'h3',
+            null,
+            app.subtitle
+        ),
+        app.getOptions(),
+        React.createElement(
+            'button',
+            { onClick: addOption },
+            'Add option'
+        )
+    );
 
-ReactDOM.render(template, appRoot);
+    ReactDOM.render(template, appRoot);
+};
+renderOptionsList();
