@@ -22,7 +22,7 @@ var app = {
                     return React.createElement(
                         'li',
                         { key: _this.options.indexOf(option) },
-                        option
+                        _this.options.indexOf(option) + 1 + ' - ' + option
                     );
                 })
             )

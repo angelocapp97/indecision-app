@@ -9,7 +9,7 @@ const app = {
                 <div>
                     <p>There are some options:</p>
                     <ol>
-                        {this.options.map((option) => <li key={this.options.indexOf(option)}>{option}</li>)}
+                        {this.options.map((option) => <li key={this.options.indexOf(option)}>{`${this.options.indexOf(option) + 1} - ${option}`}</li>)}
                     </ol>
                 </div>
             ) : <p className="no-options">There are no options to show.</p>
