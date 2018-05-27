@@ -37,14 +37,21 @@ var app = {
 };
 
 if (!app.options) app.options = [];
-var optionsCounter = app.options ? app.options.length : 0;
-var addOption = function addOption() {
-    optionsCounter++;
-    app.options.push('Option ' + optionsCounter);
-    renderOptionsList();
+var addOption = function addOption(option) {
+    app.options.push(option);
+    render();
 };
 
-var renderOptionsList = function renderOptionsList() {
+var onFormSubmit = function onFormSubmit(event) {
+    event.preventDefault();
+    if (event.target.elements.option.value) {
+        var option = event.target.elements.option.value;
+        addOption(option);
+        event.target.elements.option.value = '';
+    }
+};
+
+var render = function render() {
     var template = React.createElement(
         'div',
         null,
@@ -60,12 +67,17 @@ var renderOptionsList = function renderOptionsList() {
         ),
         app.getOptions(),
         React.createElement(
-            'button',
-            { onClick: addOption },
-            'Add option'
+            'form',
+            { onSubmit: onFormSubmit },
+            React.createElement('input', { type: 'text', name: 'option' }),
+            React.createElement(
+                'button',
+                null,
+                'Add option'
+            )
         )
     );
 
     ReactDOM.render(template, appRoot);
 };
-renderOptionsList();
+render();

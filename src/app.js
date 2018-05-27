@@ -20,23 +20,33 @@ const app = {
 };
 
 if (!app.options) app.options = []
-let optionsCounter = app.options ? app.options.length : 0
-const addOption = () => {
-    optionsCounter++
-    app.options.push(`Option ${optionsCounter}`)
-    renderOptionsList()
+const addOption = (option) => {
+    app.options.push(option)
+    render()
 }
 
-const renderOptionsList = () => {
+const onFormSubmit = (event) => {
+    event.preventDefault()
+    if (event.target.elements.option.value) {
+        const option = event.target.elements.option.value
+        addOption(option)
+        event.target.elements.option.value = ''   
+    }
+}
+
+const render = () => {
     const template = (
         <div>
             <h1>{app.title ? app.title : 'Anonymous'}</h1>
             {app.subtitle && <h3>{app.subtitle}</h3>}
             {app.getOptions()}
-            <button onClick={addOption}>Add option</button>
+            <form onSubmit={onFormSubmit}>
+                <input type="text" name="option" />
+                <button>Add option</button>
+            </form>
         </div>
     )
 
     ReactDOM.render(template, appRoot)
 }
-renderOptionsList()
+render()
