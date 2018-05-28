@@ -1,58 +1,92 @@
 
-const appRoot = document.getElementById('app-root')
-
-const app = {
-    title: 'Indecision App',
-    subtitle: 'My first React app',
-    options: ['Option 1', 'Option 2', 'Option 3'],
-    getOptions() {
+class IndecisionApp extends React.Component {
+    render() {
+        const title = 'Indecision App'
+        const subtitle = 'Put your live in the hands of a computer'
+        
         return (
-            (app.options && app.options.length > 0) ? (
-                <div>
-                    <p>There are some options:</p>
-                    <ol>
-                        {this.options.map((option) => <li key={this.options.indexOf(option)}>{`${this.options.indexOf(option) + 1} - ${option}`}</li>)}
-                    </ol>
-                </div>
-            ) : <p className="no-options">There are no options to show.</p>
+            <div>
+                <Header title={title} subtitle={subtitle} />
+                <Options />
+            </div>
         )
     }
-};
-
-if (!app.options) app.options = []
-const addOption = (option) => {
-    app.options.push(option)
-    render()
 }
 
-const onFormSubmit = (event) => {
-    event.preventDefault()
-    if (event.target.elements.option.value) {
-        const option = event.target.elements.option.value
-        addOption(option)
-        event.target.elements.option.value = ''   
+class Header extends React.Component {
+    render() {
+        return (
+            <div>
+                <h1>{this.props.title}</h1>
+                <h2>{this.props.subtitle}</h2>
+            </div>
+        )
     }
 }
 
-const onRemoveAll = () => {
-    app.options = []
-    render()
+class Options extends React.Component {
+    constructor(props) {
+        super(props)
+        this.onFormSubmit = this.onFormSubmit.bind(this)
+        this.onRemoveAll = this.onRemoveAll.bind(this)
+        this.state = {
+            options: []
+        }
+    }
+    render() {
+        return ( 
+            <div>
+                {
+                    (this.state.options && this.state.options.length > 0) ? (
+                        <div>
+                            <p>There are some options:</p>
+                            <div className="list-container">
+                                {this.state.options.map((item) => <Option key={this.state.options.indexOf(item)} text={`${this.state.options.indexOf(item) + 1} - ${item}`} />)}
+                            </div>
+                        </div>
+                    ) : <p className="no-options">There are no options to show.</p>
+                }
+                <div>
+                    <form onSubmit={this.onFormSubmit}>
+                        <input type="text" name="option" />
+                        <button>Add option</button>
+                    </form>
+                    <button onClick={this.onRemoveAll}>Remove All</button>
+                </div>
+            </div>
+        )
+    }
+    onFormSubmit(event) {
+        event.preventDefault()
+        const option = event.target.elements.option.value
+        if (option) {
+            this.setState((prevState) => {
+                let newOptions = []
+                if (prevState.options && prevState.options.length > 0) {
+                    newOptions = prevState.options
+                }
+                newOptions.push(option)
+                return { options: newOptions }   
+            })
+            event.target.elements.option.value = ''
+        }
+    }
+    onRemoveAll(event) {
+        event.preventDefault()
+        this.setState(() => {
+            return {
+                options: []
+            }
+        })
+    }
 }
 
-const render = () => {
-    const template = (
-        <div>
-            <h1>{app.title ? app.title : 'Anonymous'}</h1>
-            {app.subtitle && <h3>{app.subtitle}</h3>}
-            {app.getOptions()}
-            <form onSubmit={onFormSubmit}>
-                <input type="text" name="option" />
-                <button>Add option</button>
-            </form>
-            <button onClick={onRemoveAll}>Remove All</button>
-        </div>
-    )
-
-    ReactDOM.render(template, appRoot)
+class Option extends React.Component {
+    render() {
+        return (
+            <li>{this.props.text}</li>
+        )
+    }
 }
-render()
+
+ReactDOM.render(<IndecisionApp />, document.getElementById('app-root'))
