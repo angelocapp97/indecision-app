@@ -1,15 +1,40 @@
 
 class IndecisionApp extends React.Component {
+    constructor(props) {
+        super(props)
+        this.title = 'Indecision App'
+        this.subtitle = 'Put your live in the hands of a computer'
+        this.handleAddOption = this.handleAddOption.bind(this)
+        this.handleRemoveAll = this.handleRemoveAll.bind(this)
+        this.state = {
+            options: []
+        }
+    }
     render() {
-        const title = 'Indecision App'
-        const subtitle = 'Put your live in the hands of a computer'
-        
         return (
             <div>
-                <Header title={title} subtitle={subtitle} />
-                <Options />
+                <Header title={this.title} subtitle={this.subtitle} />
+                <Options
+                    options={this.state.options}
+                    handleAddOption={this.handleAddOption} 
+                    handleRemoveAll={this.handleRemoveAll} 
+                />
             </div>
         )
+    }
+    handleAddOption(option) {
+        this.setState((prevState) => {
+            return {
+                options: prevState.options.concat([option])
+            }
+        })
+    }
+    handleRemoveAll() {
+        this.setState(() => {
+            return {
+                options: []
+            }
+        })
     }
 }
 
@@ -27,57 +52,26 @@ class Header extends React.Component {
 class Options extends React.Component {
     constructor(props) {
         super(props)
-        this.onFormSubmit = this.onFormSubmit.bind(this)
-        this.onRemoveAll = this.onRemoveAll.bind(this)
-        this.state = {
-            options: []
-        }
     }
     render() {
         return ( 
             <div>
                 {
-                    (this.state.options && this.state.options.length > 0) ? (
+                    (this.props.options && this.props.options.length > 0) ? (
                         <div>
                             <p>There are some options:</p>
                             <div className="list-container">
-                                {this.state.options.map((item) => <Option key={this.state.options.indexOf(item)} text={`${this.state.options.indexOf(item) + 1} - ${item}`} />)}
+                                {this.props.options.map((item) => <Option key={this.props.options.indexOf(item)} text={`${this.props.options.indexOf(item) + 1} - ${item}`} />)}
                             </div>
                         </div>
                     ) : <p className="no-options">There are no options to show.</p>
                 }
                 <div>
-                    <form onSubmit={this.onFormSubmit}>
-                        <input type="text" name="option" />
-                        <button>Add option</button>
-                    </form>
-                    <button onClick={this.onRemoveAll}>Remove All</button>
+                    <AddOption handleAddOption={this.props.handleAddOption} />
+                    <RemoveAll handleRemoveAll={this.props.handleRemoveAll} />
                 </div>
             </div>
         )
-    }
-    onFormSubmit(event) {
-        event.preventDefault()
-        const option = event.target.elements.option.value
-        if (option) {
-            this.setState((prevState) => {
-                let newOptions = []
-                if (prevState.options && prevState.options.length > 0) {
-                    newOptions = prevState.options
-                }
-                newOptions.push(option)
-                return { options: newOptions }   
-            })
-            event.target.elements.option.value = ''
-        }
-    }
-    onRemoveAll(event) {
-        event.preventDefault()
-        this.setState(() => {
-            return {
-                options: []
-            }
-        })
     }
 }
 
@@ -86,6 +80,43 @@ class Option extends React.Component {
         return (
             <li>{this.props.text}</li>
         )
+    }
+}
+
+class AddOption extends React.Component {
+    constructor(props) {
+        super(props)
+        this.onHandleAddOption = this.onHandleAddOption.bind(this)
+    }
+    render() {
+        return (
+            <form onSubmit={this.onHandleAddOption}>
+                <input type="text" name="option" />
+                <button>Add option</button>
+            </form>
+        )
+    }
+    onHandleAddOption(event) {
+        event.preventDefault()
+        const option = event.target.elements.option.value.trim()
+        if (option) {
+            this.props.handleAddOption(option)
+            event.target.elements.option.value = ''
+        }
+    }
+}
+
+class RemoveAll extends React.Component {
+    constructor(props) {
+        super(props)
+        this.onHandleRemoveAll = this.onHandleRemoveAll.bind(this)
+    }
+    render() {
+        return <button onClick={this.onHandleRemoveAll}>Remove All</button>
+    }
+    onHandleRemoveAll(event) {
+        event.preventDefault()
+        this.props.handleRemoveAll()
     }
 }
 
