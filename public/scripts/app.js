@@ -43,11 +43,16 @@ var IndecisionApp = function (_React$Component) {
     }, {
         key: 'handleAddOption',
         value: function handleAddOption(option) {
-            this.setState(function (prevState) {
-                return {
-                    options: prevState.options.concat([option])
-                };
-            });
+            if (option && option.trim()) {
+                this.setState(function (prevState) {
+                    return {
+                        options: prevState.options.concat([option])
+                    };
+                });
+                return;
+            }
+
+            return 'Unable to add this option.';
         }
     }, {
         key: 'handleRemoveAll',
@@ -136,7 +141,10 @@ var Options = function (_React$Component3) {
                     'div',
                     null,
                     React.createElement(AddOption, { handleAddOption: this.props.handleAddOption }),
-                    React.createElement(RemoveAll, { handleRemoveAll: this.props.handleRemoveAll })
+                    React.createElement(RemoveAll, {
+                        handleRemoveAll: this.props.handleRemoveAll,
+                        optionsLength: this.props.options.length
+                    })
                 )
             );
         }
@@ -176,7 +184,11 @@ var AddOption = function (_React$Component5) {
 
         var _this6 = _possibleConstructorReturn(this, (AddOption.__proto__ || Object.getPrototypeOf(AddOption)).call(this, props));
 
+        _this6.onOptionChanged = _this6.onOptionChanged.bind(_this6);
         _this6.onHandleAddOption = _this6.onHandleAddOption.bind(_this6);
+        _this6.state = {
+            value: ''
+        };
         return _this6;
     }
 
@@ -186,23 +198,26 @@ var AddOption = function (_React$Component5) {
             return React.createElement(
                 'form',
                 { onSubmit: this.onHandleAddOption },
-                React.createElement('input', { type: 'text', name: 'option' }),
+                React.createElement('input', { type: 'text', name: 'option',
+                    value: this.state.value, onChange: this.onOptionChanged }),
                 React.createElement(
                     'button',
-                    null,
+                    { disabled: !this.state.value.length > 0 },
                     'Add option'
                 )
             );
         }
     }, {
+        key: 'onOptionChanged',
+        value: function onOptionChanged(event) {
+            this.setState({ value: event.target.value.trim() });
+        }
+    }, {
         key: 'onHandleAddOption',
         value: function onHandleAddOption(event) {
             event.preventDefault();
-            var option = event.target.elements.option.value.trim();
-            if (option) {
-                this.props.handleAddOption(option);
-                event.target.elements.option.value = '';
-            }
+            this.props.handleAddOption(this.state.value);
+            this.setState({ value: '' });
         }
     }]);
 
@@ -226,7 +241,7 @@ var RemoveAll = function (_React$Component6) {
         value: function render() {
             return React.createElement(
                 'button',
-                { onClick: this.onHandleRemoveAll },
+                { onClick: this.onHandleRemoveAll, disabled: !this.props.optionsLength > 0 },
                 'Remove All'
             );
         }

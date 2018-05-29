@@ -23,11 +23,16 @@ class IndecisionApp extends React.Component {
         )
     }
     handleAddOption(option) {
-        this.setState((prevState) => {
-            return {
-                options: prevState.options.concat([option])
-            }
-        })
+        if (option && option.trim()) {
+            this.setState((prevState) => {
+                return {
+                    options: prevState.options.concat([option])
+                }
+            })
+            return
+        }
+
+        return 'Unable to add this option.'
     }
     handleRemoveAll() {
         this.setState(() => {
@@ -68,7 +73,10 @@ class Options extends React.Component {
                 }
                 <div>
                     <AddOption handleAddOption={this.props.handleAddOption} />
-                    <RemoveAll handleRemoveAll={this.props.handleRemoveAll} />
+                    <RemoveAll 
+                        handleRemoveAll={this.props.handleRemoveAll}
+                        optionsLength={this.props.options.length}
+                    />
                 </div>
             </div>
         )
@@ -86,23 +94,28 @@ class Option extends React.Component {
 class AddOption extends React.Component {
     constructor(props) {
         super(props)
+        this.onOptionChanged = this.onOptionChanged.bind(this)
         this.onHandleAddOption = this.onHandleAddOption.bind(this)
+        this.state = { 
+            value: ''
+        }
     }
     render() {
         return (
             <form onSubmit={this.onHandleAddOption}>
-                <input type="text" name="option" />
-                <button>Add option</button>
+                <input type="text" name="option"
+                    value={this.state.value} onChange={this.onOptionChanged}/>
+                <button disabled={!this.state.value.length > 0}>Add option</button>
             </form>
         )
     }
+    onOptionChanged(event) {
+        this.setState({ value: event.target.value.trim() })
+    }
     onHandleAddOption(event) {
         event.preventDefault()
-        const option = event.target.elements.option.value.trim()
-        if (option) {
-            this.props.handleAddOption(option)
-            event.target.elements.option.value = ''
-        }
+        this.props.handleAddOption(this.state.value)
+        this.setState({ value: '' })
     }
 }
 
@@ -111,8 +124,9 @@ class RemoveAll extends React.Component {
         super(props)
         this.onHandleRemoveAll = this.onHandleRemoveAll.bind(this)
     }
+    
     render() {
-        return <button onClick={this.onHandleRemoveAll}>Remove All</button>
+        return <button onClick={this.onHandleRemoveAll} disabled={!this.props.optionsLength > 0}>Remove All</button>
     }
     onHandleRemoveAll(event) {
         event.preventDefault()
