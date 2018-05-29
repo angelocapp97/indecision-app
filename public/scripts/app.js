@@ -187,7 +187,8 @@ var AddOption = function (_React$Component5) {
         _this6.onOptionChanged = _this6.onOptionChanged.bind(_this6);
         _this6.onHandleAddOption = _this6.onHandleAddOption.bind(_this6);
         _this6.state = {
-            value: ''
+            value: '',
+            error: ''
         };
         return _this6;
     }
@@ -204,6 +205,11 @@ var AddOption = function (_React$Component5) {
                     'button',
                     { disabled: !this.state.value.length > 0 },
                     'Add option'
+                ),
+                this.state.error && React.createElement(
+                    'p',
+                    { className: 'error' },
+                    this.state.error
                 )
             );
         }
@@ -216,8 +222,13 @@ var AddOption = function (_React$Component5) {
         key: 'onHandleAddOption',
         value: function onHandleAddOption(event) {
             event.preventDefault();
-            this.props.handleAddOption(this.state.value);
-            this.setState({ value: '' });
+            var error = this.props.handleAddOption(this.state.value);
+            this.setState(function (prev) {
+                return {
+                    value: error ? prev.value : '',
+                    error: error
+                };
+            });
         }
     }]);
 

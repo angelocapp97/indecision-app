@@ -97,7 +97,8 @@ class AddOption extends React.Component {
         this.onOptionChanged = this.onOptionChanged.bind(this)
         this.onHandleAddOption = this.onHandleAddOption.bind(this)
         this.state = { 
-            value: ''
+            value: '',
+            error: ''
         }
     }
     render() {
@@ -106,6 +107,7 @@ class AddOption extends React.Component {
                 <input type="text" name="option"
                     value={this.state.value} onChange={this.onOptionChanged}/>
                 <button disabled={!this.state.value.length > 0}>Add option</button>
+                {this.state.error && <p className="error">{this.state.error}</p>}
             </form>
         )
     }
@@ -114,8 +116,13 @@ class AddOption extends React.Component {
     }
     onHandleAddOption(event) {
         event.preventDefault()
-        this.props.handleAddOption(this.state.value)
-        this.setState({ value: '' })
+        const error = this.props.handleAddOption(this.state.value)
+        this.setState((prev) => {
+            return {
+                value: error ? prev.value : '',
+                error
+            }
+        })
     }
 }
 
@@ -124,7 +131,6 @@ class RemoveAll extends React.Component {
         super(props)
         this.onHandleRemoveAll = this.onHandleRemoveAll.bind(this)
     }
-    
     render() {
         return <button onClick={this.onHandleRemoveAll} disabled={!this.props.optionsLength > 0}>Remove All</button>
     }

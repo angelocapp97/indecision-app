@@ -5,3 +5,7 @@
 .no-options {
     color: gray;
 }
+
+.error {
+    color: red;
+}
