@@ -7,7 +7,7 @@ class IndecisionApp extends React.Component {
         this.handleAddOption = this.handleAddOption.bind(this)
         this.handleRemoveAll = this.handleRemoveAll.bind(this)
         this.state = {
-            options: []
+            options: props.options
         }
     }
     render() {
@@ -41,6 +41,9 @@ class IndecisionApp extends React.Component {
             }
         })
     }
+}
+IndecisionApp.defaultProps = {
+    options: []
 }
 
 const Header = (props) => {
@@ -100,7 +103,7 @@ class AddOption extends React.Component {
     render() {
         return (
             <form onSubmit={this.onHandleAddOption}>
-                <input type="text" name="option"
+                <input type="text" name="option" placeholder="Something to do"
                     value={this.state.value} onChange={this.onOptionChanged}/>
                 <button disabled={!this.state.value.length > 0}>Add option</button>
                 {this.state.error && <p className="error">{this.state.error}</p>}

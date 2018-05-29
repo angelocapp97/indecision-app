@@ -21,7 +21,7 @@ var IndecisionApp = function (_React$Component) {
         _this.handleAddOption = _this.handleAddOption.bind(_this);
         _this.handleRemoveAll = _this.handleRemoveAll.bind(_this);
         _this.state = {
-            options: []
+            options: props.options
         };
         return _this;
     }
@@ -67,6 +67,10 @@ var IndecisionApp = function (_React$Component) {
 
     return IndecisionApp;
 }(React.Component);
+
+IndecisionApp.defaultProps = {
+    options: []
+};
 
 var Header = function Header(props) {
     return React.createElement(
@@ -169,7 +173,7 @@ var AddOption = function (_React$Component3) {
             return React.createElement(
                 'form',
                 { onSubmit: this.onHandleAddOption },
-                React.createElement('input', { type: 'text', name: 'option',
+                React.createElement('input', { type: 'text', name: 'option', placeholder: 'Something to do',
                     value: this.state.value, onChange: this.onOptionChanged }),
                 React.createElement(
                     'button',
