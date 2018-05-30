@@ -47,7 +47,7 @@ var IndecisionApp = function (_React$Component) {
         key: 'handleAddOption',
         value: function handleAddOption(option) {
             if (!option || !option.trim()) {
-                return 'Unable to add ' + option + ' option.';
+                return 'Unable to add \'' + option + '\' option.';
             } else if (this.state.options.indexOf(option) > -1) {
                 return 'The option \'' + option + '\' already exists.';
             }
@@ -60,9 +60,9 @@ var IndecisionApp = function (_React$Component) {
         key: 'handleDeleteOption',
         value: function handleDeleteOption(optionToRemove) {
             if (!optionToRemove || !optionToRemove.trim()) {
-                return 'Unable to remove this option.';
+                return 'Unable to remove \'' + optionToRemove + '\' option.';
             } else if (this.state.options.indexOf(optionToRemove) === -1) {
-                return 'This option doesn\'t exists.';
+                return 'The option \'' + optionToRemove + '\' doesn\'t exists.';
             }
 
             this.setState(function (prev) {
