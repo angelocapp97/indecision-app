@@ -25,12 +25,12 @@ class IndecisionApp extends React.Component {
     }
     handleAddOption(option) {
         if (!option || !option.trim()) {
-            return 'Unable to add this option.'
+            return `Unable to add ${option} option.`
         } else if (this.state.options.indexOf(option) > -1) {
-            return 'This option already exists.'
+            return `The option '${option}' already exists.`
         }
 
-        this.setState((prev) => ({ options: prev.options.concat([option]) }))
+        this.setState((prev) => ({ options: [...prev.options, option] }))
     }
     handleDeleteOption(optionToRemove) {
         if (!optionToRemove || !optionToRemove.trim()) {
