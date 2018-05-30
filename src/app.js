@@ -10,6 +10,24 @@ class IndecisionApp extends React.Component {
         this.handleRemoveAll = this.handleRemoveAll.bind(this)
         this.handleDeleteOption = this.handleDeleteOption.bind(this)
     }
+    componentDidMount() {
+        try {
+            const json = localStorage.getItem('options')
+            const options = JSON.parse(json)
+
+            if (options) {
+                this.setState(() => ({ options }))
+            }
+        } catch(e) {
+            
+        }
+    }
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.options.length !== prevState.options.length) {
+            const json = JSON.stringify(this.state.options)
+            localStorage.setItem('options', json)
+        }
+    }
     render() {
         return (
             <div>
@@ -35,7 +53,7 @@ class IndecisionApp extends React.Component {
     handleDeleteOption(optionToRemove) {
         if (!optionToRemove || !optionToRemove.trim()) {
             return `Unable to remove '${optionToRemove}' option.`
-        } 
+        }
         else if (this.state.options.indexOf(optionToRemove) === -1) {
             return `The option '${optionToRemove}' doesn't exists.`
         }
@@ -163,4 +181,4 @@ class RemoveAll extends React.Component {
     }
 }
 
-ReactDOM.render(<IndecisionApp options={['angelo', 'cappelletti', 'luco']} />, document.getElementById('app-root'))
+ReactDOM.render(<IndecisionApp />, document.getElementById('app-root'))

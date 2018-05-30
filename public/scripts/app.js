@@ -29,6 +29,28 @@ var IndecisionApp = function (_React$Component) {
     }
 
     _createClass(IndecisionApp, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            try {
+                var json = localStorage.getItem('options');
+                var options = JSON.parse(json);
+
+                if (options) {
+                    this.setState(function () {
+                        return { options: options };
+                    });
+                }
+            } catch (e) {}
+        }
+    }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate(prevProps, prevState) {
+            if (this.state.options.length !== prevState.options.length) {
+                var json = JSON.stringify(this.state.options);
+                localStorage.setItem('options', json);
+            }
+        }
+    }, {
         key: 'render',
         value: function render() {
             return React.createElement(
@@ -298,4 +320,4 @@ var RemoveAll = function (_React$Component5) {
     return RemoveAll;
 }(React.Component);
 
-ReactDOM.render(React.createElement(IndecisionApp, { options: ['angelo', 'cappelletti', 'luco'] }), document.getElementById('app-root'));
+ReactDOM.render(React.createElement(IndecisionApp, null), document.getElementById('app-root'));
