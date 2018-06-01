@@ -1,0 +1,14 @@
+$placeholder-text: gray;
+$error-text: red;
+
+.list-container {
+    list-style-type: none;
+}
+
+.no-options {
+    color: $placeholder-text;
+}
+
+.error {
+    color: $error-text;
+}
