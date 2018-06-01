@@ -1,10 +1,9 @@
 import React from 'react'
 
-export const Header = (props) => {
+export const Header = () => {
     return (
         <div>
-            <h1>{props.title}</h1>
-            {props.subtitle && <h2>{props.subtitle}</h2>}
+            <h1>Indecision App</h1>
         </div>
     )
 }

@@ -4,9 +4,6 @@ import { AddOption } from './AddOption'
 import { RemoveAll } from './RemoveAll'
 
 export class Options extends React.Component {
-    constructor(props) {
-        super(props)
-    }
     render() {
         return (
             <div>

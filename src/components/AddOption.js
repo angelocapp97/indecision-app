@@ -1,13 +1,8 @@
 import React from 'react'
 
 export class AddOption extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = { value: '', error: '' }
-
-        this.onOptionChanged = this.onOptionChanged.bind(this)
-        this.onHandleAddOption = this.onHandleAddOption.bind(this)
-    }
+    state = { value: '', error: '' }
+    
     render() {
         return (
             <form onSubmit={this.onHandleAddOption}>
@@ -18,10 +13,10 @@ export class AddOption extends React.Component {
             </form>
         )
     }
-    onOptionChanged(event) {
+    onOptionChanged = (event) => {
         this.setState({ value: event.target.value.trim() })
     }
-    onHandleAddOption(event) {
+    onHandleAddOption = (event) => {
         event.preventDefault()
         const error = this.props.handleAddOption(this.state.value)
         this.setState((prev) => ({ value: error ? prev.value : '', error }))

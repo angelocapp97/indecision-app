@@ -3,16 +3,8 @@ import { Header } from './Header'
 import { Options } from './Options'
 
 export class IndecisionApp extends React.Component {
-    constructor(props) {
-        super(props)
-        this.title = props.title
-        this.subtitle = props.subtitle
-        this.state = { options: props.options }
+    state = { options: [] }
 
-        this.handleAddOption = this.handleAddOption.bind(this)
-        this.handleRemoveAll = this.handleRemoveAll.bind(this)
-        this.handleDeleteOption = this.handleDeleteOption.bind(this)
-    }
     componentDidMount() {
         try {
             const json = localStorage.getItem('options')
@@ -44,7 +36,7 @@ export class IndecisionApp extends React.Component {
             </div>
         )
     }
-    handleAddOption(option) {
+    handleAddOption = (option) => {
         if (!option || !option.trim()) {
             return `Unable to add '${option}' option.`
         } else if (this.state.options.indexOf(option) > -1) {
@@ -53,7 +45,7 @@ export class IndecisionApp extends React.Component {
 
         this.setState((prev) => ({ options: [...prev.options, option] }))
     }
-    handleDeleteOption(optionToRemove) {
+    handleDeleteOption = (optionToRemove) => {
         if (!optionToRemove || !optionToRemove.trim()) {
             return `Unable to remove '${optionToRemove}' option.`
         }
@@ -65,12 +57,7 @@ export class IndecisionApp extends React.Component {
             options: prev.options.filter((option) => option !== optionToRemove)
         }))
     }
-    handleRemoveAll() {
+    handleRemoveAll = () => {
         this.setState(() => ({ options: [] }))
     }
-}
-IndecisionApp.defaultProps = {
-    title: 'Indecision App',
-    subtitle: '',
-    options: []
 }

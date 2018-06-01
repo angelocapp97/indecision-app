@@ -1,12 +1,8 @@
 import React from 'react'
 
 export class Option extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = { error: '' }
-
-        this.onClickDeleteOption = this.onClickDeleteOption.bind(this)
-    }
+    state = { error: '' }
+    
     render() {
         return (
             <li>
@@ -16,7 +12,7 @@ export class Option extends React.Component {
             </li>
         )
     }
-    onClickDeleteOption(event) {
+    onClickDeleteOption = (event) => {
         const error = this.props.handleDeleteOption(this.props.value)
         this.setState({ error })
     }
