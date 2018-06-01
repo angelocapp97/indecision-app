@@ -1,3 +1,5 @@
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 class IndecisionApp extends React.Component {
     constructor(props) {
@@ -18,8 +20,8 @@ class IndecisionApp extends React.Component {
             if (options) {
                 this.setState(() => ({ options }))
             }
-        } catch(e) {
-            
+        } catch (e) {
+
         }
     }
     componentDidUpdate(prevProps, prevState) {
@@ -34,7 +36,7 @@ class IndecisionApp extends React.Component {
                 <Header title={this.title} subtitle={this.subtitle} />
                 <Options
                     options={this.state.options}
-                    handleAddOption={this.handleAddOption} 
+                    handleAddOption={this.handleAddOption}
                     handleRemoveAll={this.handleRemoveAll}
                     handleDeleteOption={this.handleDeleteOption}
                 />
@@ -86,7 +88,7 @@ class Options extends React.Component {
         super(props)
     }
     render() {
-        return ( 
+        return (
             <div>
                 {
                     (this.props.options && this.props.options.length > 0) ? (
@@ -107,7 +109,7 @@ class Options extends React.Component {
                 }
                 <div>
                     <AddOption handleAddOption={this.props.handleAddOption} />
-                    <RemoveAll 
+                    <RemoveAll
                         handleRemoveAll={this.props.handleRemoveAll}
                         optionsLength={this.props.options.length}
                     />
@@ -151,7 +153,7 @@ class AddOption extends React.Component {
         return (
             <form onSubmit={this.onHandleAddOption}>
                 <input type="text" name="option" placeholder="Something to do"
-                    value={this.state.value} onChange={this.onOptionChanged}/>
+                    value={this.state.value} onChange={this.onOptionChanged} />
                 <button disabled={!this.state.value.length > 0}>Add option</button>
                 {this.state.error && <p className="error">{this.state.error}</p>}
             </form>
