@@ -28,9 +28,11 @@ export class IndecisionApp extends React.Component {
         }
     }
     render() {
+        const subtitle = 'Put your live in the hands of a computer'
+
         return (
             <div>
-                <Header title={this.title} subtitle={this.subtitle} />
+                <Header subtitle={subtitle} />
                 <Options
                     options={this.state.options}
                     handleAddOption={this.handleAddOption}
