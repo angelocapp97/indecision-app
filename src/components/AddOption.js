@@ -14,11 +14,11 @@ export class AddOption extends React.Component {
         )
     }
     onOptionChanged = (event) => {
-        this.setState({ value: event.target.value.trim() })
+        this.setState({ value: event.target.value })
     }
     onHandleAddOption = (event) => {
         event.preventDefault()
-        const error = this.props.handleAddOption(this.state.value)
+        const error = this.props.handleAddOption(this.state.value.trim())
         this.setState((prev) => ({ value: error ? prev.value : '', error }))
     }
 }

@@ -1,9 +1,13 @@
 import React from 'react'
 import { Header } from './Header'
 import { Options } from './Options'
+import { RemoveAllModal } from './RemoveAllModal'
 
 export class IndecisionApp extends React.Component {
-    state = { options: [] }
+    state = { 
+        options: [],
+        removeAllModalState: undefined
+    }
 
     componentDidMount() {
         try {
@@ -30,8 +34,13 @@ export class IndecisionApp extends React.Component {
                 <Options
                     options={this.state.options}
                     handleAddOption={this.handleAddOption}
-                    handleRemoveAll={this.handleRemoveAll}
+                    handleRemoveAll={this.toggleRemoveAllModal}
                     handleDeleteOption={this.handleDeleteOption}
+                />
+                <RemoveAllModal
+                    isOpen={this.state.removeAllModalState}
+                    toggle={this.toggleRemoveAllModal}
+                    length={this.state.options.length}
                 />
             </div>
         )
@@ -57,7 +66,10 @@ export class IndecisionApp extends React.Component {
             options: prev.options.filter((option) => option !== optionToRemove)
         }))
     }
-    handleRemoveAll = () => {
-        this.setState(() => ({ options: [] }))
+    toggleRemoveAllModal = (e) => {
+        this.setState((prev) => ({ removeAllModalState: !prev.removeAllModalState }))
+        if (e && e.target.dataset.result === 'ok') {
+            this.setState(() => ({ options: [] }))
+        }
     }
 }
