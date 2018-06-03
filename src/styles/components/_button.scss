@@ -1,0 +1,32 @@
+.button {
+    border: none;
+    background: $purple;
+    border-bottom: .3rem solid darken($purple, 10%);
+    color: white;
+    font-weight: 500;
+    padding: $s-size;
+    cursor: pointer;
+}
+
+.button--success {
+    background: $success;
+    border-bottom: .3rem solid darken($success, 10%);
+}
+
+.button:disabled {
+    opacity: .5;
+    cursor: default;
+}
+
+.button--link {
+    background: none;
+    border: none;
+    color: $off-white;
+    cursor: pointer;
+    padding: 0;
+}
+
+.button--link:disabled {
+    opacity: 0.5;
+    cursor: default;
+}

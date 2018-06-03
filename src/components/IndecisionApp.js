@@ -33,21 +33,24 @@ export class IndecisionApp extends React.Component {
         return (
             <div>
                 <Header subtitle={subtitle} />
-                <Options
-                    options={this.state.options}
-                    handleAddOption={this.handleAddOption}
-                    handleRemoveAll={this.toggleRemoveAllModal}
-                    handleDeleteOption={this.handleDeleteOption}
-                />
-                <RemoveAllModal
-                    isOpen={this.state.removeAllModalState}
-                    toggle={this.toggleRemoveAllModal}
-                    length={this.state.options.length}
-                />
+                <div className="container">
+                    <Options
+                        options={this.state.options}
+                        handleAddOption={this.handleAddOption}
+                        handleRemoveAll={this.toggleRemoveAllModal}
+                        handleDeleteOption={this.handleDeleteOption}
+                    />
+                    <RemoveAllModal
+                        isOpen={this.state.removeAllModalState}
+                        toggle={this.toggleRemoveAllModal}
+                        length={this.state.options.length}
+                    />
+                </div>
             </div>
         )
     }
     handleAddOption = (option) => {
+        console.log(this.state.options.indexOf(option))
         if (!option || !option.trim()) {
             return `Unable to add '${option}' option.`
         } else if (this.state.options.indexOf(option) > -1) {

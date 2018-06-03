@@ -5,11 +5,19 @@ export class Option extends React.Component {
     
     render() {
         return (
-            <li>
-                {this.props._key + 1} – {this.props.value}
-                <button onClick={this.onClickDeleteOption}>Delete</button>
-                {this.state.error && <span className="error">{this.state.error}</span>}
-            </li>
+            <div className="widget-body__option">
+                <div className="widget-body__option--text">
+                    <p className="widget-body__option--text--value">{this.props._key}. {this.props.value}</p>
+                    {this.state.error && <p className="widget-body__option--text--error">{this.state.error}</p>}
+                </div>
+                <div className="widget-body__option--action">
+                    <button
+                        className="button button--link"
+                        onClick={this.onClickDeleteOption}>
+                        Remove
+                    </button>
+                </div>
+            </div>
         )
     }
     onClickDeleteOption = (event) => {
